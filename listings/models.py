@@ -46,7 +46,7 @@ class Professor(models.Model):
         return f"{self.first_name} {self.last_name}"
 
 
-# Course model
+
 # Course model
 class Course(models.Model):
     title = models.TextField()
