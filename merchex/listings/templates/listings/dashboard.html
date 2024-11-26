@@ -1,0 +1,330 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="apple-touch-icon" sizes="76x76" href="{% static 'listings/assets/img/logo-ocp.png' %}" >
+  <link rel="icon" type="image/png" href="{% static 'listings/assets/img/logo-ocp.png' %}" >
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-...your-integrity-hash..." crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-...your-integrity-hash..." crossorigin="anonymous"></script>
+
+  <title>
+    MyOCP
+  </title>
+  <!--     Fonts and icons     -->
+       <!-- Include Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Include jQuery -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <!-- Include Popper.js -->
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+  <!-- Include Bootstrap JavaScript -->
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+
+  <!-- Nucleo Icons -->
+  <link href="{% static 'listings/assets/css/nucleo-icons.css' %}" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link href="{% static 'listings/assets/css/nucleo-svg.css' %}" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+  <!-- Font Awesome Icons -->
+  <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+  <link href="{% static 'listings/assets/css/nucleo-svg.css' %}" rel="stylesheet" />
+  <!-- CSS Files -->
+  <link id="pagestyle" href="{% static 'listings/assets/css/soft-ui-dashboard.css' %}"  rel="stylesheet" />
+</head>
+<body class="g-sidenav-show bg-gray-100">
+    <main class="main-content position-relative max-height-vh-100 h-100 mt-1 border-radius-lg">
+        <div class="container-fluid py-4">
+            <!-- Notifications -->
+            <div>
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }} alert-dismissible fade show mt-2" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+
+            <!-- Statistics Cards -->
+            <div class="row">
+                <!-- Completion Rate -->
+                <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+                    <div class="card">
+                        <div class="card-body p-3">
+                            <div class="row">
+                                <div class="col-8">
+                                    <div class="numbers">
+                                        <p class="text-sm mb-0 text-capitalize font-weight-bold">Taux de Complétion</p>
+                                        <h5 class="font-weight-bolder">
+                                            {{ completion_rate }}%
+                                        </h5>
+                                    </div>
+                                </div>
+                                <div class="col-4 text-end">
+                                    <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+                                        <i class="bi bi-check2-circle text-lg" style="font-size: 40px;"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Total Courses -->
+                <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+                    <div class="card">
+                        <div class="card-body p-3">
+                            <div class="row">
+                                <div class="col-8">
+                                    <div class="numbers">
+                                        <p class="text-sm mb-0 text-capitalize font-weight-bold">Nombre de Cours</p>
+                                        <h5 class="font-weight-bolder">
+                                            {{ total_courses }}
+                                        </h5>
+                                    </div>
+                                </div>
+                                <div class="col-4 text-end">
+                                    <div class="icon icon-shape bg-gradient-success shadow text-center border-radius-md">
+                                        <i class="bi bi-journal-text text-lg" style="font-size: 40px;"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gained/Required Skills -->
+                <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+                    <div class="card">
+                        <div class="card-body p-3">
+                            <div class="row">
+                                <div class="col-8">
+                                    <div class="numbers">
+                                        <p class="text-sm mb-0 text-capitalize font-weight-bold">Compétences Acquises / Requises</p>
+                                        <h5 class="font-weight-bolder">
+                                            {{ skills_comparison.gained }} / {{ skills_comparison.required }}
+                                        </h5>
+                                    </div>
+                                </div>
+                                <div class="col-4 text-end">
+                                    <div class="icon icon-shape bg-gradient-warning shadow text-center border-radius-md">
+                                        <i class="bi bi-lightbulb text-lg" style="font-size: 40px;"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Professors with Courses -->
+                <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+                    <div class="card">
+                        <div class="card-body p-3">
+                            <div class="row">
+                                <div class="col-8">
+                                    <div class="numbers">
+                                        <p class="text-sm mb-0 text-capitalize font-weight-bold">Professeurs avec Cours</p>
+                                        <h5 class="font-weight-bolder">
+                                            {{ professor_working_days|length }}
+                                        </h5>
+                                    </div>
+                                </div>
+                                <div class="col-4 text-end">
+                                    <div class="icon icon-shape bg-gradient-danger shadow text-center border-radius-md">
+                                        <i class="bi bi-person-check text-lg" style="font-size: 40px;"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-4">
+                <!-- Dropdown for Departments -->
+                <div class="col-lg-12 mb-3">
+                    <label for="departmentDropdown" class="form-label">Sélectionnez un département :</label>
+                    <select id="departmentDropdown" class="form-select">
+                        <option value="">-- Choisir un département --</option>
+                        {% for department in departments %}
+                            <option value="{{ department.id }}">{{ department.name }}</option>
+                        {% endfor %}
+                    </select>
+                    
+                </div>
+            
+                <!-- Chart Section -->
+                <div class="col-lg-12 mb-lg-4 mb-4">
+                    <div class="card z-index-2">
+                        <div class="card-body p-3">
+                            <div class="bg-gradient-dark border-radius-lg py-3 pe-1 mb-3">
+                                <div class="chart">
+                                    <canvas id="departmentChart" width="400" height="200"></canvas>
+                                </div>
+                            </div>
+                            <h6 class="ms-2 mt-4 mb-0" id="chartTitle">Statistiques par département</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-4">
+                <!-- Chart Section for Required vs Gained Skills -->
+                <div class="col-lg-12 mb-lg-4 mb-4">
+                    <div class="card z-index-2">
+                        <div class="card-body p-3">
+                            <div class="bg-gradient-dark border-radius-lg py-3 pe-1 mb-3">
+                                <div class="chart">
+                                    <canvas id="skillsComparisonChart" width="400" height="200"></canvas>
+                                </div>
+                            </div>
+                            <h6 class="ms-2 mt-4 mb-0">Comparaison des compétences requises et acquises</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            
+
+
+
+
+    </main>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    const departmentDropdown = document.getElementById('departmentDropdown');
+    const chartTitle = document.getElementById('chartTitle');
+    const chartCanvas = document.getElementById('departmentChart').getContext('2d');
+
+    let departmentChart = new Chart(chartCanvas, {
+        type: 'bar',
+        data: {
+            labels: [], // Placeholder for labels
+            datasets: [{
+                label: 'Statistiques',
+                data: [], // Placeholder for data
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: { beginAtZero: true }
+            }
+        }
+    });
+
+    departmentDropdown.addEventListener('change', function () {
+        const departmentId = this.value;
+        if (!departmentId) return;
+
+        fetch(`/statistic-data/${departmentId}/`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.labels && data.values) {
+                    // Update Chart
+                    departmentChart.data.labels = data.labels;
+                    departmentChart.data.datasets[0].data = data.values;
+                    departmentChart.update();
+
+                    // Update Title
+                    chartTitle.textContent = `Statistiques pour le département: ${data.department_name}`;
+                } else {
+                    console.error('Invalid data received');
+                }
+            })
+            .catch(error => console.error('Erreur lors de la récupération des données:', error));
+    });
+});
+
+</script>
+    <!-- ChartJS Script -->
+    <script src="{% static 'assets/js/plugins/chartjs.min.js' %}"></script>
+    <script>
+       // Courses by Department Chart
+const coursesByDepartmentData = JSON.parse('{{ courses_by_department_data|escapejs }}');
+new Chart(document.getElementById('coursesByDepartmentChart'), {
+    type: 'pie',
+    data: {
+        labels: coursesByDepartmentData.labels,
+        datasets: [{
+            data: coursesByDepartmentData.counts,
+            backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4CAF50', '#FFC107']
+        }]
+    }
+});
+
+// Courses by Year Chart
+const coursesByYearData = JSON.parse('{{ courses_by_year_data|escapejs }}');
+new Chart(document.getElementById('coursesByYearChart'), {
+    type: 'line',
+    data: {
+        labels: coursesByYearData.years,
+        datasets: [{
+            label: 'Courses Offered',
+            data: coursesByYearData.counts,
+            borderColor: '#4CAF50',
+            fill: false
+        }]
+    }
+});
+    </script>
+    <!-- ChartJS Script -->
+   
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const skillsComparison = JSON.parse('{{ skills_comparison|escapejs }}');
+    
+            // Create chart for required vs gained skills
+            new Chart(document.getElementById('skillsComparisonChart').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: ['Compétences requises', 'Compétences acquises'],
+                    datasets: [{
+                        label: 'Nombre de compétences',
+                        data: [skillsComparison.required, skillsComparison.gained],
+                        backgroundColor: ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)'],
+                        borderColor: ['rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+    
+
+    <!-- Styling -->
+    <style>
+        .table-hover tbody tr:hover {
+            background-color: #f5f5f5;
+        }
+        thead th {
+            background-color: #343a40;
+            color: #ffffff;
+            text-transform: uppercase;
+        }
+        .table-bordered th, .table-bordered td {
+            border: 1px solid #dee2e6;
+        }
+    </style>
+</body>
+</html>
